@@ -1,25 +1,20 @@
-
 const clave = "redragon"
 let intentos = 0 
 let log = false
 
+while (intentos < 3 && !log) {
 
+    const contraseña = prompt("Escriba su contraseña");
 
-while(intentos < 3 && !log){
-
-const contraseña = prompt("Escriba su contraseña"); 
-
-
-   if (contraseña === clave) {
-        console.log("Su contraseña es correcta acceso consedido")
+    if (contraseña === clave) {
+        console.log("Su contraseña es correcta. Acceso concedido.")
         log = true
-    }else{
+    } else {
         intentos++
-        console.log(`Su contraseña es incorrecta intentos disponibles: ${3 - intentos}`)
-        
+        console.log(`Su contraseña es incorrecta. Intentos disponibles: ${3 - intentos}`)
     }
 }
 
-if(!log){
-    console.log("Su cuenta ha sido bloqueada, llego a 3/3 intentos")
+if (!log) {
+    console.log("Su cuenta ha sido bloqueada. Llegó a 3/3 intentos.")
 }
