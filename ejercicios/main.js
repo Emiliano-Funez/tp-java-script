@@ -1,19 +1,25 @@
-let nombre = prompt("Escriba su nombre");
 
-let apellido = prompt("Escriba su apellido");
+const clave = "redragon"
+let intentos = 0 
+let log = false
 
-let edad = parseInt(prompt("Escriba su edad"));
 
-const año = Number(prompt("Que año es hoy"));
 
-let num1 = parseFloat(prompt("Escriba su primer numero"));
+while(intentos < 3 && !log){
 
-let num2 = parseFloat(prompt("Escriba su segundo numero"));
+const contraseña = prompt("Escriba su contraseña"); 
 
-let resultado = num1 + num2;
 
-console.log("Tu nombre es " + nombre + " " + apellido + " tenes " + edad + " años de edad");
+   if (contraseña === clave) {
+        console.log("Su contraseña es correcta acceso consedido")
+        log = true
+    }else{
+        intentos++
+        console.log(`Su contraseña es incorrecta intentos disponibles: ${3 - intentos}`)
+        
+    }
+}
 
-console.log("El resultado de la suma es " + resultado);
-
-alert("Hola " + nombre + " " + apellido + " tu resultado es " + resultado + " El año es: " + año);
+if(!log){
+    console.log("Su cuenta ha sido bloqueada, llego a 3/3 intentos")
+}
