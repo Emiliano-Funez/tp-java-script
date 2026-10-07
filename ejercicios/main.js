@@ -1,28 +1,24 @@
-const sumar = (a,b) => a + b
-const restar = (a,b) => a - b
-const multiplicar = (a,b) => a * b
-const dividir = (a,b) => a / b
+const vinito = ["milanesa", "sorrentino", "osobuco", "fideos", "empanadas", "flan", "vigilante"]
+console.log("Su inventario actual es:", vinito)
 
-function Calculadora(primernum, segundonum, operacion){
-    switch(operacion){
-        case "+": return(sumar(primernum, segundonum))
-        case "-": return(restar(primernum, segundonum))
-        case "*": return(multiplicar(primernum, segundonum))
-        case "/": return(dividir(primernum, segundonum))
-        default: 
-        alert("Ingreso invalido")
-        }
-    }
+vinito.push("lasaña")
+vinito.unshift("pizza")
+const ultimafruta = vinito.pop()
+console.log("Se ha eliminado el elemento:", ultimafruta)
 
-    while(confirm("Desea usar la calculadora?")){
-    let operacion = prompt(`¿Qué operación desea realizar?
-            +: sumar
-            -: restar
-            *: multiplicar
-            /: dividir`)
-        let primernum = Number(prompt("Ingrese su primero numero"))
-        let segundonum = Number(prompt("Ingrese su segundo numero"))
-        Calculadora(primernum, segundonum, operacion)
-    }
-  
+let busca = prompt("Escribir el elemento que desea buscar")
 
+
+if(vinito.includes(busca)){
+    console.log("Su elemento si existe y esta en la posicion:", vinito.indexOf(busca))
+}
+else{
+    console.log("Su elemento no existe.")
+}
+
+vinito.splice(1,1,"focaccia")
+console.log("Tu menu actual es:", vinito)
+
+for(const ev of vinito){
+    console.log("Producto:", ev)
+}
