@@ -1,43 +1,25 @@
-class Producto {
-    constructor(id, nombre, precio, stock) {
-        this.id = id;
-        this.nombre = nombre;
-        this.precio = parseFloat(precio);
-        this.stock = stock;
-    }
+const productos = [
+  { nombre: "Laptop",  precio: 800, stock: 5, categoria: "tecnologia" },
+  { nombre: "Teclado", precio: 50,  stock: 0, categoria: "tecnologia" },
+  { nombre: "Monitor", precio: 300, stock: 3, categoria: "tecnologia"},
+  { nombre: "Silla Gamer", precio: 200, stock: 4, categoria: "muebles" },
+  { nombre: "Escritorio", precio: 150, stock: 2, categoria: "muebles" }
+];
+ 
+//Filter 
+const categorias = [...new Set(productos.map(p => p.categoria))];
 
-        sumarIva() {
-    this.precio *= 1.21;
-    }
+const chose = prompt("Categorías disponibles: " + categorias + "\n¿Qué categoría quiere ver:").toLowerCase();
+const tipo = productos.filter(p => p.categoria === chose);
+console.log("Productos Tecnologicos ", tipo);
 
-        vender(cantidad = 1){
-            if (cantidad <= 0 || cantidad > this.stock){
-                return false
-            }
-            this.stock -= cantidad;
-                return true
-        }
-}
+//Map 
+const Iva = productos.map(p => p.precio * 0.21);
+console.log("El Iva de cada producto es: ", Iva)
 
-const productos = [];
-
-productos.push(new Producto(0, "arroz", 125, 10));
-productos.push(new Producto(1, "burger", 75, 10));
-productos.push(new Producto(2, "fideo", 35, 10));
-
-for (const producto of productos){
-    producto.sumarIva();
-}
-
-let Listado = "";
-for (const producto of productos){
-    Listado += producto.id +" "+ producto.nombre + "\n"
-}
-
-productos[0].vender(2);
-
-for (const producto of productos) {
-    console.log(producto);
-}
+//forEach 
+productos.forEach(p => { 
+  console.log("nombre: " + p.nombre + "precio: " + p.precio);
+});
 
 

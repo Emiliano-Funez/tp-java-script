@@ -1,0 +1,45 @@
+// ============================================
+// TABLA RESUMEN — CUÁNDO USAR CADA UNO
+// ============================================
+/*
+| Método   | ¿Qué devuelve?            | ¿Modifica el original? | Uso típico                      |
+|----------|---------------------------|------------------------|---------------------------------|
+| filter   | Array (puede estar vacío) | NO                     | Quedarme con los que cumplen    |
+| find     | Objeto o undefined        | NO                     | Buscar uno específico           |
+| map      | Array del mismo tamaño    | NO                     | Transformar cada elemento       |
+| reduce   | Un solo valor             | NO                     | Sumar, contar, combinar todo    |
+REGLA PRÁCTICA:
+- ¿Necesito varios que cumplan algo?    → filter
+- ¿Necesito uno solo?                  → find
+- ¿Necesito transformar cada uno?      → map
+- ¿Necesito combinar todo en uno?      → reduce
+-necesito ordenarlos                   -> sort
+*/
+
+
+
+
+
+
+//metodo filter
+const economicos = tienda.filter((producto) => producto.precio < condicion)
+
+
+//metodo find
+const mochila = tienda.find((producto) => producto.nombre.toLowerCase() === "mochila".toLowerCase())
+
+
+//metodo map
+ const conDescuento = tienda.filter(producto => producto.precio < 20000).map((producto) => ({
+    nombre : producto.nombre,
+    precio : Math.round(producto.precio * 0.8)
+}))
+
+
+//metodo reduce
+const totalStock = tienda.reduce((acum, producto) => acum + producto.precio, 0)
+console.log("Valor total del stock: $" + totalStock)
+
+//metodo sort
+const baratos = tienda.sort((a,b) => a.precio - b.precio )
+console.log("del mas barato al mas caro ", baratos)
