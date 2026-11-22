@@ -4,7 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Mi Simulador de Stock</title>
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0/src/toastify.min.css">
   <link rel="stylesheet" href="./style.css" />
+  <script src="https://cdn.jsdelivr.net/npm/toastify-js@1.12.0"></script>
   <script src="./main.js" defer></script>
 </head>
 <body>
@@ -13,8 +15,6 @@
   </header>
 
   <main>
-    <p id="aviso"></p>
-
     <section class="formulario">
       <input id="nombre" type="text" placeholder="Nombre">
       <input id="precio" type="number" placeholder="Precio">
@@ -27,9 +27,9 @@
       <button id="btn-agregar">+ Agregar</button>
     </section>
 
-    <p id="mensaje"></p>
-
     <input id="buscador" type="text" placeholder="Buscar por nombre...">
+
+    <p id="cargando"></p>
 
     <section id="contenedor-items"></section>
   </main>

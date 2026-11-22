@@ -19,61 +19,67 @@ class Producto {
   }
 }
 
-const productosIniciales = [
-  { nombre: "Teclado mecánico", precio: 45000, categoria: "Periféricos", stock: 8 },
-  { nombre: "Mouse inalámbrico", precio: 22000, categoria: "Periféricos", stock: 15 },
-  { nombre: "Monitor 24''", precio: 180000, categoria: "Monitores", stock: 4 }
-];
-
 const productos = [];
 
 function guardar() {
   localStorage.setItem("productos", JSON.stringify(productos));
 }
 
-
 const inputNombre = document.querySelector("#nombre");
 const inputPrecio = document.querySelector("#precio");
 const selectCategoria = document.querySelector("#categoria");
 const inputStock = document.querySelector("#stock");
 const btnAgregar = document.querySelector("#btn-agregar");
-const aviso = document.querySelector("#aviso");
-const mensaje = document.querySelector("#mensaje");
 const buscador = document.querySelector("#buscador");
+const cargando = document.querySelector("#cargando");
 const contenedor = document.querySelector("#contenedor-items");
 
-function obtenerProductos() {
-  return new Promise((resolve, reject) => {
-    setTimeout(() => {
-      try {
-        const datos = JSON.parse(localStorage.getItem("productos")) ?? productosIniciales;
-        resolve(datos);
-      } catch (error) {
-        reject("Los datos guardados están dañados");
-      }
-    }, 1500);
-  });
+//(librería Toastify) 
+const VERDE = "#2E7D4F";
+const ROJO = "#B83A30";
+const AZUL = "#17506B";
+
+function notificar(texto, color) {
+  Toastify({
+    text: texto,
+    duration: 3500,
+    gravity: "top",
+    position: "right",
+    style: { background: color }
+  }).showToast();
+}
+
+function esperar(milisegundos) {
+  return new Promise((resolve) => setTimeout(resolve, milisegundos));
 }
 
 async function cargarProductos() {
   btnAgregar.disabled = true; 
-  mensaje.textContent = "⏳ Cargando productos...";
-  mensaje.className = "info";
+  cargando.textContent = "⏳ Cargando productos...";
 
   try {
-    const datos = await obtenerProductos();
+    const respuesta = await fetch("./data.json");
+
+    if (!respuesta.ok) {
+      throw new Error("Error " + respuesta.status);
+    }
+
+    const datosServidor = await respuesta.json();
+    await esperar(1000); 
+
+    const datos = JSON.parse(localStorage.getItem("productos")) ?? datosServidor;
 
     for (const dato of datos) {
       const { nombre, precio, categoria, stock } = dato;
       productos.push(new Producto(nombre, precio, categoria, stock));
     }
 
-    mensaje.textContent = "✔️ Productos cargados: " + productos.length;
-    mensaje.className = "ok";
+    notificar("✅ Productos cargados con éxito", VERDE);
   } catch (error) {
-    mensaje.textContent = "⚠️ No se pudieron cargar los productos. Intenta recargar la página";
-    mensaje.className = "error";
+    notificar("❌ No se pudieron cargar los productos. Intenta de nuevo más tarde", ROJO);
   } finally {
+
+    cargando.textContent = "";
     btnAgregar.disabled = false;
     mostrar();
   }
@@ -91,11 +97,13 @@ function mostrarAviso() {
     }
   }
 
-  aviso.textContent = stockBajo > 0
-    ? "🔔 Recordatorio: tienes " + stockBajo + " producto(s) con stock bajo (3 o menos unidades)"
-    : "🔔 Recordatorio: todos tus productos tienen buen stock";
+  notificar(
+    stockBajo > 0
+      ? "🔔 Recordatorio: tienes " + stockBajo + " producto(s) con stock bajo"
+      : "🔔 Recordatorio: todos tus productos tienen buen stock",
+    AZUL
+  );
 }
-
 
 function renderizar(lista) {
   let html = "";
@@ -119,7 +127,7 @@ function renderizar(lista) {
   }
 
   contenedor.innerHTML = html;
-  
+
   const botonesVender = document.querySelectorAll(".btn-vender");
   const botonesEliminar = document.querySelectorAll(".btn-eliminar");
 
@@ -132,6 +140,7 @@ function renderizar(lista) {
     });
   }
 }
+
 function mostrar() {
   const texto = buscador.value.toLowerCase();
   const resultados = [];
@@ -145,15 +154,13 @@ function mostrar() {
   renderizar(resultados);
 }
 
-
 function agregar() {
   const nombre = inputNombre.value;
   const precio = Number(inputPrecio.value);
   const stock = Number(inputStock.value);
 
   if (nombre === "" || precio <= 0 || stock <= 0) {
-    mensaje.textContent = "Completa nombre, precio y stock con valores válidos";
-    mensaje.className = "error";
+    notificar("Completa nombre, precio y stock con valores válidos", ROJO);
     return;
   }
 
@@ -164,8 +171,7 @@ function agregar() {
   inputPrecio.value = "";
   inputStock.value = "";
 
-  mensaje.textContent = "Agregaste " + nombre;
-  mensaje.className = "ok";
+  notificar("Agregaste " + nombre, VERDE);
   mostrar();
 }
 
@@ -173,8 +179,10 @@ function vender(producto) {
   const { nombre } = producto;
   const vendido = producto.descontarStock(1);
 
-  mensaje.textContent = vendido ? "Vendiste 1 unidad de " + nombre : nombre + " no tiene stock";
-  mensaje.className = vendido ? "ok" : "error";
+  notificar(
+    vendido ? "Vendiste 1 unidad de " + nombre : nombre + " no tiene stock",
+    vendido ? VERDE : ROJO
+  );
 
   guardar();
   mostrar();
@@ -185,8 +193,7 @@ function eliminar(producto) {
   productos.splice(posicion, 1);
   guardar();
 
-  mensaje.textContent = "Eliminaste " + producto.nombre;
-  mensaje.className = "info";
+  notificar("Eliminaste " + producto.nombre, AZUL);
   mostrar();
 }
 
@@ -194,5 +201,6 @@ function eliminar(producto) {
 btnAgregar.addEventListener("click", agregar);
 buscador.addEventListener("keyup", mostrar);
 
+
 cargarProductos();               
-setTimeout(mostrarAviso, 3000);  
+setTimeout(mostrarAviso, 4000);  

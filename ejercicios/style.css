@@ -12,11 +12,15 @@ input, select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-
 
 button { padding: 10px 16px; border: none; border-radius: 6px; background: #17506B; color: white; font-size: 1rem; cursor: pointer; }
 button:hover { background: #0F3A4F; }
+button:disabled { opacity: 0.5; cursor: not-allowed; }
 
-#aviso { margin-bottom: 14px; padding: 10px 14px; border-radius: 6px; background: #FDEBC8; color: #7A4E00; }
-#aviso:empty { display: none; }
+#buscador { width: 100%; margin: 14px 0; }
 
-#mensaje { margin: 14px 0; padding: 10px 14px; border-radius: 6px; }
-#mensaje:empty { display: none; }
-.ok { background: #E3F3E9; color: #1F5C38; }
-.error { background: #FBE6E3; color: #8C2A22; }
+#cargando { text-align: center; font-weight: bold; color: #17506B; padding: 12px; }
+#cargando:empty { display: none; }
+
+.producto { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; background: white; border-left: 5px solid #17506B; border-radius: 8px; padding: 14px; margin-bottom: 10px; }
+.producto h3 { margin-bottom: 4px; }
+.acciones { display: flex; gap: 8px; }
+.btn-eliminar { background: #B83A30; }
+.btn-eliminar:hover { background: #8C2A22; }
