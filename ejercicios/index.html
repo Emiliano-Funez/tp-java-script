@@ -1,12 +1,35 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ejercicio de java script</title>
-    <script src="./main.js" defer></script>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Mi Simulador de Stock</title>
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/main.js" defer></script>
 </head>
 <body>
-    <h1>Java Script</h1>
+  <header>
+    <h1>Mi Simulador de Stock</h1>
+  </header>
+
+  <main>
+    <section class="formulario">
+      <input id="nombre" type="text" placeholder="Nombre">
+      <input id="precio" type="number" placeholder="Precio">
+      <select id="categoria">
+        <option value="Periféricos">Periféricos</option>
+        <option value="Monitores">Monitores</option>
+        <option value="Accesorios">Accesorios</option>
+      </select>
+      <input id="stock" type="number" placeholder="Stock">
+      <button id="btn-agregar">+ Agregar</button>
+    </section>
+
+    <p id="mensaje"></p>
+
+    <input id="buscador" type="text" placeholder="Buscar por nombre...">
+
+    <section id="contenedor-items"></section>
+  </main>
 </body>
 </html>
