@@ -6,7 +6,6 @@ header { background: #17506B; color: white; padding: 24px; text-align: center; }
 
 main { max-width: 800px; margin: 20px auto; padding: 0 16px; }
 
-/* Formulario */
 .formulario { display: flex; flex-wrap: wrap; gap: 10px; background: white; padding: 16px; border-radius: 10px; }
 input, select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; }
 .formulario input, .formulario select { flex: 1 1 140px; }
@@ -14,19 +13,10 @@ input, select { padding: 10px; border: 1px solid #ccc; border-radius: 6px; font-
 button { padding: 10px 16px; border: none; border-radius: 6px; background: #17506B; color: white; font-size: 1rem; cursor: pointer; }
 button:hover { background: #0F3A4F; }
 
-/* Mensajes */
+#aviso { margin-bottom: 14px; padding: 10px 14px; border-radius: 6px; background: #FDEBC8; color: #7A4E00; }
+#aviso:empty { display: none; }
+
 #mensaje { margin: 14px 0; padding: 10px 14px; border-radius: 6px; }
 #mensaje:empty { display: none; }
 .ok { background: #E3F3E9; color: #1F5C38; }
 .error { background: #FBE6E3; color: #8C2A22; }
-.info { background: #E4EEF3; color: #0F3A4F; }
-
-/* Buscador */
-#buscador { width: 100%; margin: 14px 0; }
-
-/* Productos */
-.producto { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 10px; background: white; border-left: 5px solid #17506B; border-radius: 8px; padding: 14px; margin-bottom: 10px; }
-.producto h3 { margin-bottom: 4px; }
-.acciones { display: flex; gap: 8px; }
-.btn-eliminar { background: #B83A30; }
-.btn-eliminar:hover { background: #8C2A22; }
