@@ -19,11 +19,26 @@ class Producto {
   }
 }
 
-const productos = [
-  new Producto("Teclado mecánico", 45000, "Periféricos", 8),
-  new Producto("Mouse inalámbrico", 22000, "Periféricos", 15),
-  new Producto("Monitor 24''", 180000, "Monitores", 4)
+
+const productosIniciales = [
+  { nombre: "Teclado mecánico", precio: 45000, categoria: "Periféricos", stock: 8 },
+  { nombre: "Mouse inalámbrico", precio: 22000, categoria: "Periféricos", stock: 15 },
+  { nombre: "Monitor 24''", precio: 180000, categoria: "Monitores", stock: 4 }
 ];
+
+
+const datosGuardados = JSON.parse(localStorage.getItem("productos")) ?? productosIniciales;
+
+
+const productos = [];
+for (const datos of datosGuardados) {
+  const { nombre, precio, categoria, stock } = datos;
+  productos.push(new Producto(nombre, precio, categoria, stock));
+}
+
+function guardar() {
+  localStorage.setItem("productos", JSON.stringify(productos));
+}
 
 
 const inputNombre = document.querySelector("#nombre");
@@ -35,16 +50,19 @@ const mensaje = document.querySelector("#mensaje");
 const buscador = document.querySelector("#buscador");
 const contenedor = document.querySelector("#contenedor-items");
 
+
 function renderizar(lista) {
   let html = "";
 
   for (const p of lista) {
+    const { nombre, precio, categoria, stock } = p;
+
     html += `
       <div class="producto">
         <div>
-          <h3>${p.nombre}</h3>
-          <p>$${p.precio} (con IVA: $${p.sumarIva().toFixed(2)})</p>
-          <p>${p.categoria} - Stock: ${p.stock}</p>
+          <h3>${nombre}</h3>
+          <p>$${precio} (con IVA: $${p.sumarIva().toFixed(2)})</p>
+          <p>${categoria} - ${stock === 0 ? "Agotado" : "Stock: " + stock}</p>
         </div>
         <div class="acciones">
           <button class="btn-vender">Vender 1</button>
@@ -68,6 +86,7 @@ function renderizar(lista) {
     });
   }
 }
+
 
 function mostrar() {
   const texto = buscador.value.toLowerCase();
@@ -95,6 +114,7 @@ function agregar() {
   }
 
   productos.push(new Producto(nombre, precio, selectCategoria.value, stock));
+  guardar();
 
   inputNombre.value = "";
   inputPrecio.value = "";
@@ -106,29 +126,27 @@ function agregar() {
 }
 
 function vender(producto) {
-  if (producto.descontarStock(1)) {
-    mensaje.textContent = "Vendiste 1 unidad de " + producto.nombre;
-    mensaje.className = "ok";
-  } else {
-    mensaje.textContent = producto.nombre + " no tiene stock";
-    mensaje.className = "error";
-  }
+  const { nombre } = producto;
+  const vendido = producto.descontarStock(1);
+
+  mensaje.textContent = vendido ? "Vendiste 1 unidad de " + nombre : nombre + " no tiene stock";
+  mensaje.className = vendido ? "ok" : "error";
+
+  guardar();
   mostrar();
 }
 
 function eliminar(producto) {
   const posicion = productos.indexOf(producto);
   productos.splice(posicion, 1);
+  guardar();
 
   mensaje.textContent = "Eliminaste " + producto.nombre;
   mensaje.className = "info";
   mostrar();
 }
 
-
 btnAgregar.addEventListener("click", agregar);
 buscador.addEventListener("keyup", mostrar);
 
-
 mostrar();
-
